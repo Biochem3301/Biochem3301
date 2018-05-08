@@ -1,0 +1,36 @@
+
+cd $PBS_O_WORKDIR
+module load miniconda/python2
+
+# setting temporary directory
+mkdir -p ~/qiime_tmp
+export TMPDIR=~/qiime_tmp
+
+# loading virtual environment
+echo "loading virtualenv"
+source activate qiime1
+
+
+
+# Alpha Diversity Analysis
+
+
+# Alpha Diversity Comparison – by category / OTUs
+compare_alpha_diversity.py -i ./OTUs/Core_Output8/arare_max34000/alpha_div_collated/observed_otus.txt -m ./map.txt -c SamplePh,SampleNitrogen,SamplePhosphorus -o ./OTUs/Alpha/Alpha_Diversity_OTUs -t nonparametric -n 999 -d 34000
+
+# Output = ./OTUs/Alpha/Alpha_Diversity_OTUs
+
+
+# Alpha Diversity Comparison – by category / Phylogenic Diversity Index
+compare_alpha_diversity.py -i ./OTUs/Core_Output8/arare_max34000/alpha_div_collated/PD_whole_tree.txt -m ./map.txt -c SamplePh,SampleNitrogen,SamplePhosphorus -o ./OTUs/Alpha/Alpha_Diversity_PD_whole_tree -t nonparametric -n 999 -d 34000
+
+# Output = ./OTUs/Alpha/Alpha_Diversity_PD_whole_tree
+
+
+# Alpha Diversity Comparison – by category / chao1
+compare_alpha_diversity.py -i ./OTUs/Core_Output8/arare_max34000/alpha_div_collated/chao1.txt -m ./map.txt -c SamplePh,SampleNitrogen,SamplePhosphorus -o ./OTUs/Alpha/Alpha_Diversity_Chao1 -t nonparametric -n 999 -d 34000
+
+# Output = ./OTUs/Alpha/Alpha_Diversity_Chao1
+
+
+source deactivate
