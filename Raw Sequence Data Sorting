@@ -33,3 +33,4 @@ pick_closed_reference_otus.py -i ./Demultiplexed/seqs.fna -o ./OTUs
 # summarise the .biom (format) file to make it readable to humans in .txt
 biom summarize-table -i ./OTUs/otu_table.biom -o ./OTUs/otu_table.txt
 
+source deactivate
