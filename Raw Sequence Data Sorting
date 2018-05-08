@@ -1,0 +1,35 @@
+cd $PBS_O_WORKDIR
+module load miniconda/python2
+
+# setting temporary directory
+mkdir -p ~/qiime_tmp
+export TMPDIR=~/qiime_tmp
+
+# loading virtual environment
+echo "loading virtualenv"
+source activate qiime1
+
+
+# Raw Sequence Data Sorting
+
+# task 1 - joining reads
+# -m specifying which module you are using, -f forward, -r reverse, -b barcode
+join_paired_ends.py -m SeqPrep -f Read1.fastq.gz -r Read2.fastq.gz -b Index.fastq.gz -o Joined_Reads
+
+# output = Joined_Reads
+
+
+# task 2 - split library - dividing your sequence reads into separate files for each index tag/sample, to put it into the right format --rev, -q the quality score
+split_libraries_fastq.py -i ./Joined_Reads/seqprep_assembled.fastq.gz -b ./Joined_Reads/seqprep_assembled.fastq_barcodes.fastq -o ./Demultiplexed --rev_comp_mapping_barcodes --rev_comp_barcode -m ./map.tsv -q 19
+
+# output = Demultiplexed
+
+
+# task 3 - pick OTUs - closed
+pick_closed_reference_otus.py -i ./Demultiplexed/seqs.fna -o ./OTUs
+
+# output = OTUs
+
+# summarise the .biom (format) file to make it readable to humans in .txt
+biom summarize-table -i ./OTUs/otu_table.biom -o ./OTUs/otu_table.txt
+
