@@ -1,0 +1,44 @@
+
+cd $PBS_O_WORKDIR
+module load miniconda/python2
+
+# setting temporary directory
+mkdir -p ~/qiime_tmp
+export TMPDIR=~/qiime_tmp
+
+# loading virtual environment
+echo "loading virtualenv"
+source activate qiime1
+
+
+# Taxonomy Analysis
+
+# Plot Taxa Summary
+plot_taxa_summary.py -i ./OTUs/Taxa_Summary/otu_table_L2.txt -l Phylum -c bar -o ./OTUs/Taxa_Charts
+
+# Output = ./OTUs/Taxa_Charts
+
+
+#  Taxa Summary – by category – bar plot
+summarize_taxa_through_plots.py -i ./OTUs/otu_table.biom -m ./map.txt -c SamplePh -o ./OTUs/Taxa_Summary_By_Category/SamplePh -s
+summarize_taxa_through_plots.py -i ./OTUs/otu_table.biom -m ./map.txt -c SampleNitrogen -o ./OTUs/Taxa_Summary_By_Category/SampleNitrogen -s
+summarize_taxa_through_plots.py -i ./OTUs/otu_table.biom -m ./map.txt -c SamplePhosphorus -o ./OTUs/Taxa_Summary_By_Category/SamplePhosphorus -s
+
+# Output = ./OTUs/Taxa_Summary_By_Category
+
+
+# Generate Heatmap at –L 2 = Phylum
+make_otu_heatmap.py -i ./OTUs/Core_Output8/taxa_plots/table_mc34000_sorted_L2.biom -o ./OTUs/Heatmap2.pdf --color_scheme YlOrRd --suppress_row_clustering
+
+# Output = ./OTUs/Heatmap2
+
+
+# Metadata Correlation
+observation_metadata_correlation.py -i ./OTUs/Taxa_Summary/otu_table_L2.biom -m map.txt -c SamplePh -s spearman -o ./OTUs/Correlation/spearman_otu_gradient_ph.txt
+observation_metadata_correlation.py -i ./OTUs/Taxa_Summary/otu_table_L2.biom -m map.txt -c SampleNitrogen -s spearman -o ./OTUs/Correlation/spearman_otu_gradient_nitrogen.txt
+observation_metadata_correlation.py -i ./OTUs/Taxa_Summary/otu_table_L2.biom -m map.txt -c SamplePhosphorus -s spearman -o ./OTUs/Correlation/spearman_otu_gradient_phosphorus.txt
+
+# Output = ./OTUs/Correlation
+
+
+source deactivate
