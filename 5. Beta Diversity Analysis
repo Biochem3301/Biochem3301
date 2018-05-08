@@ -1,0 +1,34 @@
+
+cd $PBS_O_WORKDIR
+module load miniconda/python2
+
+# setting temporary directory
+mkdir -p ~/qiime_tmp
+export TMPDIR=~/qiime_tmp
+
+# loading virtual environment
+echo "loading virtualenv"
+source activate qiime1
+
+
+# Beta Diversity Analysis
+
+# 2D PCoA beta-diversity unifrac plots - unweighted
+make_2d_plots.py -i ./OTUs/Core_Output8/bdiv_even34000/unweighted_unifrac_pc.txt -m ./map.txt -o ./OTUs/Beta/2D_PCoA_Plots
+
+# Output = ./OTUs/Beta/2D_PCoA_Plots
+
+
+# Comparison of beta-diversity – by category – using adonis - unweighted
+compare_categories.py —- method adonis -i ./OTUs/Core_Output8/bdiv_even34000/unweighted_unifrac_dm.txt -m ./map.txt -c SamplePh,SampleNitrogen,SamplePhosphorus -o ./OTUs/Beta/Beta_Diversity_Comparison_adonis
+
+# Output = ./OTUs/Beta/Beta_Diversity_Comparison_adonis
+
+
+# Comparison of beta-diversity – by category – using ANOSIM  - unweighted
+compare_categories.py —- method anosim -i ./OTUs/Core_Output8/bdiv_even34000/unweighted_unifrac_dm.txt -m ./map.txt -c SamplePh,SampleNitrogen,SamplePhosphorus -o ./OTUs/Beta/Beta_Diversity_Comparison_ANOSIM
+
+# Output = ./OTUs/Beta/Beta_Diversity_Comparison_ANOSIM
+
+
+source deactivate
