@@ -1,0 +1,28 @@
+
+cd $PBS_O_WORKDIR
+module load miniconda/python2
+
+# setting temporary directory
+mkdir -p ~/qiime_tmp
+export TMPDIR=~/qiime_tmp
+
+# loading virtual environment
+echo "loading virtualenv"
+source activate qiime1
+
+
+# Initial Data Analysis
+
+# Rarefaction
+alpha_rarefaction.py -i ./OTUs/otu_table.biom -o ./OTUs/Rarefaction -m ./map.txt -e 650 -t ./OTUs/97_otus.tree 
+
+# Output = ./OTUs/Rarefaction
+
+
+# Analysis of the core diversity - inc. rarefaction, alpha and beta diversity, -t = phylogenetic tree, -e sampling depth = 34000 - any sample with OTUs less than 34000 will be excluded from the analysis
+core_diversity_analyses.py -i ./OTUs/otu_table.biom -o ./OTUs/Core_Output8 -m ./map2.txt -e 34000 -t ./OTUs/97_otus.tree
+
+# output = OTUs/Core_Output8
+
+
+source deactivate
