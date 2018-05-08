@@ -20,13 +20,13 @@ make_2d_plots.py -i ./OTUs/Core_Output8/bdiv_even34000/unweighted_unifrac_pc.txt
 
 
 # Comparison of beta-diversity – by category – using adonis - unweighted
-compare_categories.py —- method adonis -i ./OTUs/Core_Output8/bdiv_even34000/unweighted_unifrac_dm.txt -m ./map.txt -c SamplePh,SampleNitrogen,SamplePhosphorus -o ./OTUs/Beta/Beta_Diversity_Comparison_adonis
+compare_categories.py —-method adonis -i ./OTUs/Core_Output8/bdiv_even34000/unweighted_unifrac_dm.txt -m ./map.txt -c SamplePh,SampleNitrogen,SamplePhosphorus -o ./OTUs/Beta/Beta_Diversity_Comparison_adonis
 
 # Output = ./OTUs/Beta/Beta_Diversity_Comparison_adonis
 
 
 # Comparison of beta-diversity – by category – using ANOSIM  - unweighted
-compare_categories.py —- method anosim -i ./OTUs/Core_Output8/bdiv_even34000/unweighted_unifrac_dm.txt -m ./map.txt -c SamplePh,SampleNitrogen,SamplePhosphorus -o ./OTUs/Beta/Beta_Diversity_Comparison_ANOSIM
+compare_categories.py —-method anosim -i ./OTUs/Core_Output8/bdiv_even34000/unweighted_unifrac_dm.txt -m ./map.txt -c SamplePh,SampleNitrogen,SamplePhosphorus -o ./OTUs/Beta/Beta_Diversity_Comparison_ANOSIM
 
 # Output = ./OTUs/Beta/Beta_Diversity_Comparison_ANOSIM
 
