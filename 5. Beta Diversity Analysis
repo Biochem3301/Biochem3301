@@ -6,6 +6,8 @@ module load miniconda/python2
 mkdir -p ~/qiime_tmp
 export TMPDIR=~/qiime_tmp
 
+module load R
+
 # loading virtual environment
 echo "loading virtualenv"
 source activate qiime1
