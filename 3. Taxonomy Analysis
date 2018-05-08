@@ -34,9 +34,9 @@ make_otu_heatmap.py -i ./OTUs/Core_Output8/taxa_plots/table_mc34000_sorted_L2.bi
 
 
 # Metadata Correlation
-observation_metadata_correlation.py -i ./OTUs/Taxa_Summary/otu_table_L2.biom -m map.txt -c SamplePh -s spearman -o ./OTUs/Correlation/spearman_otu_gradient_ph.txt
-observation_metadata_correlation.py -i ./OTUs/Taxa_Summary/otu_table_L2.biom -m map.txt -c SampleNitrogen -s spearman -o ./OTUs/Correlation/spearman_otu_gradient_nitrogen.txt
-observation_metadata_correlation.py -i ./OTUs/Taxa_Summary/otu_table_L2.biom -m map.txt -c SamplePhosphorus -s spearman -o ./OTUs/Correlation/spearman_otu_gradient_phosphorus.txt
+observation_metadata_correlation.py -i ./OTUs/Taxa_Summary/otu_table_L2.biom -m map.txt -c SamplePh -s pearson -o ./OTUs/Correlation/pearson_otu_gradient_ph.txt
+observation_metadata_correlation.py -i ./OTUs/Taxa_Summary/otu_table_L2.biom -m map.txt -c SampleNitrogen -s pearson -o ./OTUs/Correlation/pearson_otu_gradient_nitrogen.txt
+observation_metadata_correlation.py -i ./OTUs/Taxa_Summary/otu_table_L2.biom -m map.txt -c SamplePhosphorus -s pearson -o ./OTUs/Correlation/pearson_otu_gradient_phosphorus.txt
 
 # Output = ./OTUs/Correlation
 
