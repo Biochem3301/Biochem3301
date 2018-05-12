@@ -1,0 +1,192 @@
+Logging started at 20:42:18 on 30 Apr 2018
+QIIME version: 1.9.1
+
+qiime_config values:
+pick_otus_reference_seqs_fp	/lustre/home/d411/zcbtnmo/.conda/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set/97_otus.fasta
+sc_queue	all.q
+pynast_template_alignment_fp	/lustre/home/d411/zcbtnmo/.conda/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set_aligned/85_otus.pynast.fasta
+cluster_jobs_fp	start_parallel_jobs.py
+assign_taxonomy_reference_seqs_fp	/lustre/home/d411/zcbtnmo/.conda/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/rep_set/97_otus.fasta
+torque_queue	friendlyq
+jobs_to_start	1
+denoiser_min_per_core	50
+assign_taxonomy_id_to_taxonomy_fp	/lustre/home/d411/zcbtnmo/.conda/envs/qiime1/lib/python2.7/site-packages/qiime_default_reference/gg_13_8_otus/taxonomy/97_otu_taxonomy.txt
+temp_dir	/lustre/home/d411/zcbtnmo/qiime_tmp/
+blastall_fp	blastall
+seconds_to_sleep	1
+
+parameter file values:
+parallel:jobs_to_start	1
+
+Input file md5 sums:
+./OTUs/otu_table.biom: d59f5c9be3c33482e127a617e62e59da
+./map.txt: da8e421221e0badde53f0085588a1dc1
+./OTUs/97_otus.tree: b7e76593bce82913af1cfb06edf15732
+
+Executing commands.
+
+# Generate BIOM table summary command 
+biom summarize-table -i ./OTUs/otu_table.biom -o ./OTUs/Core_Output8/biom_table_summary.txt 
+
+Stdout:
+
+Stderr:
+
+# Filter low sequence count samples from table (minimum sequence count: 34000) command 
+filter_samples_from_otu_table.py -i ./OTUs/otu_table.biom -o ./OTUs/Core_Output8/table_mc34000.biom -n 34000
+
+Stdout:
+
+Stderr:
+
+# Rarify the OTU table to 34000 sequences/sample command 
+single_rarefaction.py -i ./OTUs/Core_Output8/table_mc34000.biom -o ./OTUs/Core_Output8/table_even34000.biom -d 34000
+
+Stdout:
+
+Stderr:
+
+Executing commands.
+
+# Beta Diversity (weighted_unifrac) command 
+beta_diversity.py -i ./OTUs/Core_Output8/table_even34000.biom -o ./OTUs/Core_Output8/bdiv_even34000/ --metrics weighted_unifrac  -t ./OTUs/97_otus.tree 
+
+Stdout:
+
+Stderr:
+
+# Rename distance matrix (weighted_unifrac) command 
+mv ./OTUs/Core_Output8/bdiv_even34000//weighted_unifrac_table_even34000.txt ./OTUs/Core_Output8/bdiv_even34000//weighted_unifrac_dm.txt
+
+Stdout:
+
+Stderr:
+
+# Principal coordinates (weighted_unifrac) command 
+principal_coordinates.py -i ./OTUs/Core_Output8/bdiv_even34000//weighted_unifrac_dm.txt -o ./OTUs/Core_Output8/bdiv_even34000//weighted_unifrac_pc.txt 
+
+Stdout:
+
+Stderr:
+/lustre/home/d411/zcbtnmo/.conda/envs/qiime1/lib/python2.7/site-packages/skbio/stats/ordination/_principal_coordinate_analysis.py:107: RuntimeWarning: The result contains negative eigenvalues. Please compare their magnitude with the magnitude of some of the largest positive eigenvalues. If the negative ones are smaller, it's probably safe to ignore them, but if they are large in magnitude, the results won't be useful. See the Notes section for more details. The smallest eigenvalue is -0.00177284195756 and the largest is 0.193749944004.
+  RuntimeWarning
+
+# Make emperor plots, weighted_unifrac) command 
+make_emperor.py -i ./OTUs/Core_Output8/bdiv_even34000//weighted_unifrac_pc.txt -o ./OTUs/Core_Output8/bdiv_even34000//weighted_unifrac_emperor_pcoa_plot/ -m ./map.txt 
+
+Stdout:
+
+Stderr:
+
+# Beta Diversity (unweighted_unifrac) command 
+beta_diversity.py -i ./OTUs/Core_Output8/table_even34000.biom -o ./OTUs/Core_Output8/bdiv_even34000/ --metrics unweighted_unifrac  -t ./OTUs/97_otus.tree 
+
+Stdout:
+
+Stderr:
+
+# Rename distance matrix (unweighted_unifrac) command 
+mv ./OTUs/Core_Output8/bdiv_even34000//unweighted_unifrac_table_even34000.txt ./OTUs/Core_Output8/bdiv_even34000//unweighted_unifrac_dm.txt
+
+Stdout:
+
+Stderr:
+
+# Principal coordinates (unweighted_unifrac) command 
+principal_coordinates.py -i ./OTUs/Core_Output8/bdiv_even34000//unweighted_unifrac_dm.txt -o ./OTUs/Core_Output8/bdiv_even34000//unweighted_unifrac_pc.txt 
+
+Stdout:
+
+Stderr:
+
+# Make emperor plots, unweighted_unifrac) command 
+make_emperor.py -i ./OTUs/Core_Output8/bdiv_even34000//unweighted_unifrac_pc.txt -o ./OTUs/Core_Output8/bdiv_even34000//unweighted_unifrac_emperor_pcoa_plot/ -m ./map.txt 
+
+Stdout:
+
+Stderr:
+
+Executing commands.
+
+# Alpha rarefaction command 
+multiple_rarefactions.py -i ./OTUs/Core_Output8/table_mc34000.biom -m 10 -x 34000 -s 3399 -o ./OTUs/Core_Output8/arare_max34000//rarefaction/ 
+
+Stdout:
+
+Stderr:
+
+# Alpha diversity on rarefied OTU tables command 
+alpha_diversity.py -i ./OTUs/Core_Output8/arare_max34000//rarefaction/ -o ./OTUs/Core_Output8/arare_max34000//alpha_div/  -t ./OTUs/97_otus.tree
+
+Stdout:
+
+Stderr:
+
+# Collate alpha command 
+collate_alpha.py -i ./OTUs/Core_Output8/arare_max34000//alpha_div/ -o ./OTUs/Core_Output8/arare_max34000//alpha_div_collated/ 
+
+Stdout:
+
+Stderr:
+
+# Removing intermediate files command 
+rm -r ./OTUs/Core_Output8/arare_max34000//rarefaction/ ./OTUs/Core_Output8/arare_max34000//alpha_div/
+
+Stdout:
+
+Stderr:
+
+# Rarefaction plot: All metrics command 
+make_rarefaction_plots.py -i ./OTUs/Core_Output8/arare_max34000//alpha_div_collated/ -m ./map.txt -o ./OTUs/Core_Output8/arare_max34000//alpha_rarefaction_plots/ 
+
+Stdout:
+
+Stderr:
+/lustre/home/d411/zcbtnmo/.conda/envs/qiime1/lib/python2.7/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if self._edgecolors == str('face'):
+
+Skipping compare_alpha_diversity.py as no categories were provided.
+
+Executing commands.
+
+# Sort OTU Table command 
+sort_otu_table.py -i ./OTUs/Core_Output8/table_mc34000.biom -o ./OTUs/Core_Output8/taxa_plots/table_mc34000_sorted.biom
+
+Stdout:
+
+Stderr:
+
+# Summarize Taxonomy command 
+summarize_taxa.py -i ./OTUs/Core_Output8/taxa_plots/table_mc34000_sorted.biom -o ./OTUs/Core_Output8/taxa_plots/ 
+
+Stdout:
+
+Stderr:
+
+# Plot Taxonomy Summary command 
+plot_taxa_summary.py -i ./OTUs/Core_Output8/taxa_plots/table_mc34000_sorted_L2.txt,./OTUs/Core_Output8/taxa_plots/table_mc34000_sorted_L3.txt,./OTUs/Core_Output8/taxa_plots/table_mc34000_sorted_L4.txt,./OTUs/Core_Output8/taxa_plots/table_mc34000_sorted_L5.txt,./OTUs/Core_Output8/taxa_plots/table_mc34000_sorted_L6.txt -o ./OTUs/Core_Output8/taxa_plots//taxa_summary_plots/ 
+
+Stdout:
+
+Stderr:
+/lustre/home/d411/zcbtnmo/.conda/envs/qiime1/lib/python2.7/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if self._edgecolors == str('face'):
+
+Executing commands.
+
+# Compress the filtered BIOM table command 
+gzip ./OTUs/Core_Output8/table_mc34000.biom
+
+Stdout:
+
+Stderr:
+
+# Compress the rarefied BIOM table command 
+gzip ./OTUs/Core_Output8/table_even34000.biom
+
+Stdout:
+
+Stderr:
+
+
+Logging stopped at 21:07:50 on 30 Apr 2018
